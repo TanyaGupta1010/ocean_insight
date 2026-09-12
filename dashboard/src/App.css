@@ -1,0 +1,1862 @@
+/* ==========================================================================
+   OCEAN INSIGHT — DESIGN SYSTEM & VISUAL ARCHITECTURE
+   Real-Time Ocean Intelligence & Environmental Monitoring
+   ========================================================================== */
+
+:root {
+  /* Core Ocean Palette (Light, Living, Oceanic) */
+  --ocean-bg: #f5fafe;
+  --ocean-surface: #ffffff;
+  --ocean-subtle: #edf6fb;
+  --ocean-card: rgba(255, 255, 255, 0.72);
+  --ocean-card-hover: rgba(255, 255, 255, 0.88);
+  --ocean-card-border: rgba(203, 228, 243, 0.65);
+  --ocean-card-border-hover: rgba(56, 189, 248, 0.5);
+
+  /* Deep Marine Navy Typography */
+  --marine-navy: #091e3a;
+  --marine-navy-secondary: #163252;
+  --marine-slate: #4a6582;
+  --marine-muted: #6f8ba6;
+  --marine-hairline: rgba(14, 116, 144, 0.12);
+
+  /* Living Atmospheric Accents */
+  --deep-ocean-blue: #0284c7;
+  --ocean-azure: #0ea5e9;
+  --aqua-glow: #38bdf8;
+  --pale-aqua: #bae6fd;
+  --cyan-accent: #06b6d4;
+  --teal-accent: #0d9488;
+  --seafoam-green: #10b981;
+  --seafoam-light: #d1fae5;
+  --seafoam-border: rgba(16, 185, 129, 0.28);
+  --emerald-accent: #059669;
+  --coral-accent: #f97316;
+  --amber-accent: #d97706;
+
+  /* Shadows & Elevation */
+  --shadow-subtle: 0 4px 20px -2px rgba(12, 74, 110, 0.04);
+  --shadow-instrument: 0 16px 40px -4px rgba(12, 74, 110, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+  --shadow-instrument-hover: 0 24px 56px -6px rgba(12, 74, 110, 0.14), 0 0 0 1px rgba(255, 255, 255, 1) inset;
+  --shadow-glow-blue: 0 0 35px -5px rgba(56, 189, 248, 0.35);
+  --shadow-glow-green: 0 0 25px -4px rgba(16, 185, 129, 0.3);
+
+  /* Typography Fonts */
+  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ==========================================================================
+   GLOBAL LAYOUT & SHELL
+   ========================================================================== */
+
+.ocean-platform-shell {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
+  background-color: var(--ocean-bg);
+  font-family: var(--font-body);
+  color: var(--marine-navy);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Centered Universal Layout Container */
+.ocean-container {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 28px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   LIVING ANIMATED BACKGROUND (Glows, Sunlight, Moving Blobs)
+   ========================================================================== */
+
+.ambient-background-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* Drifting Sunlight & Ocean Water Glows */
+.ambient-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.38;
+  mix-blend-mode: multiply;
+  will-change: transform;
+}
+
+.ambient-glow--sky {
+  width: 650px;
+  height: 650px;
+  top: -120px;
+  left: 10%;
+  background: radial-gradient(circle, #bae6fd 0%, #e0f2fe 70%, transparent 100%);
+  animation: driftSkyGlow 28s ease-in-out infinite alternate;
+}
+
+.ambient-glow--aqua {
+  width: 720px;
+  height: 720px;
+  top: 35%;
+  right: -140px;
+  background: radial-gradient(circle, #a5f3fc 0%, #cffafe 65%, transparent 100%);
+  animation: driftAquaBlob 34s ease-in-out infinite alternate;
+}
+
+.ambient-glow--seafoam {
+  width: 600px;
+  height: 600px;
+  bottom: 8%;
+  left: -120px;
+  background: radial-gradient(circle, #a7f3d0 0%, #d1fae5 70%, transparent 100%);
+  animation: driftSeafoamGlow 30s ease-in-out infinite alternate;
+}
+
+.ambient-glow--center {
+  width: 540px;
+  height: 540px;
+  top: 60%;
+  left: 35%;
+  background: radial-gradient(circle, #e0f2fe 0%, #bae6fd 60%, transparent 100%);
+  animation: driftCenterGlow 22s ease-in-out infinite alternate;
+}
+
+/* Micro Caustic Reflection Texture */
+.ambient-background-layer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(rgba(2, 132, 199, 0.07) 1px, transparent 1px),
+    radial-gradient(rgba(14, 165, 233, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px, 64px 64px;
+  background-position: 0 0, 16px 16px;
+  opacity: 0.6;
+}
+
+/* Background Floating Micro Particles / Bubbles */
+.ambient-bubbles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ambient-bubble {
+  position: absolute;
+  bottom: -40px;
+  border-radius: 50%;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(186, 230, 253, 0.15));
+  box-shadow: inset 0 0 4px rgba(255, 255, 255, 0.6);
+  animation: riseBubble 20s linear infinite;
+}
+
+/* Wave Ribbon Layer */
+.ambient-wave-divider {
+  position: relative;
+  width: 100%;
+  height: 64px;
+  overflow: hidden;
+  pointer-events: none;
+  margin: 16px 0;
+  opacity: 0.45;
+}
+
+.ambient-wave-divider svg {
+  position: absolute;
+  width: 200%;
+  height: 100%;
+  animation: waveScroll 24s linear infinite;
+}
+
+/* ==========================================================================
+   INTERACTIVE WATER CURSOR & RIPPLE EFFECT
+   ========================================================================== */
+
+.water-ripple-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.water-ripple {
+  position: absolute;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.water-ripple--trail {
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid rgba(56, 189, 248, 0.45);
+  background: radial-gradient(circle, rgba(165, 243, 252, 0.25) 0%, transparent 70%);
+  animation: waterTrail 0.7s cubic-bezier(0.1, 0.6, 0.3, 1) forwards;
+}
+
+.water-ripple--click {
+  width: 26px;
+  height: 26px;
+  border: 2px solid rgba(2, 132, 199, 0.6);
+  background: radial-gradient(circle, rgba(14, 165, 233, 0.3) 0%, rgba(186, 230, 253, 0.1) 60%, transparent 100%);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.4);
+  animation: waterClickRipple 0.9s cubic-bezier(0.12, 0.75, 0.25, 1) forwards;
+}
+
+/* ==========================================================================
+   HERO SECTION (CINEMATIC STAGGERED ENTRANCE)
+   ========================================================================== */
+
+.ocean-hero {
+  padding-top: 64px;
+  padding-bottom: 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+/* Animated Minimal Ocean Wave Emblem */
+.hero-emblem-wrapper {
+  position: relative;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: heroFadeSlideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+}
+
+.hero-emblem {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 30px -4px rgba(2, 132, 199, 0.18), 0 0 0 1px rgba(186, 230, 253, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--deep-ocean-blue);
+  animation: emblemFloat 6s ease-in-out infinite;
+}
+
+.emblem-pulse-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 26px;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  animation: sonarPing 3s cubic-bezier(0, 0, 0.2, 1) infinite;
+  pointer-events: none;
+}
+
+/* Eyebrow Kicker */
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--deep-ocean-blue);
+  background: rgba(224, 242, 254, 0.6);
+  padding: 6px 16px;
+  border-radius: 100px;
+  border: 1px solid rgba(186, 230, 253, 0.7);
+  margin-bottom: 14px;
+  opacity: 0;
+  animation: heroFadeSlideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+}
+
+.hero-eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--seafoam-green);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.8);
+}
+
+/* Dominant Huge Title */
+.hero-title {
+  margin: 0 0 14px 0;
+  font-family: var(--font-display);
+  font-size: clamp(46px, 6.2vw, 80px);
+  font-weight: 900;
+  letter-spacing: -0.055em;
+  line-height: 0.94;
+  color: var(--marine-navy);
+  text-align: center;
+  text-shadow: 0 2px 20px rgba(9, 30, 58, 0.06);
+  opacity: 0;
+  animation: heroRevealTitle 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+}
+
+.hero-title span {
+  background: linear-gradient(135deg, #091e3a 40%, #0369a1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Subtitle */
+.hero-subtitle {
+  max-width: 680px;
+  margin: 0 auto 28px auto;
+  font-size: clamp(15px, 1.4vw, 19px);
+  font-weight: 450;
+  line-height: 1.5;
+  color: var(--marine-slate);
+  text-align: center;
+  opacity: 0;
+  animation: heroFadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s forwards;
+}
+
+/* ==========================================================================
+   LIVE STATUS RIBBON (ONE UNIFIED HORIZONTAL STATUS STRIP)
+   ========================================================================== */
+
+.live-status-ribbon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 10px 24px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 30px -5px rgba(12, 74, 110, 0.08), 0 0 0 1px rgba(186, 230, 253, 0.5);
+  border-radius: 100px;
+  opacity: 0;
+  animation: heroFadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.live-status-ribbon:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 38px -5px rgba(12, 74, 110, 0.12), 0 0 0 1px rgba(56, 189, 248, 0.6);
+}
+
+.status-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--marine-navy-secondary);
+  white-space: nowrap;
+}
+
+/* Pulsing Live Beacon */
+.live-stream-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--emerald-accent);
+}
+
+.live-pulse-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--seafoam-green);
+}
+
+.live-pulse-dot::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background-color: var(--seafoam-green);
+  opacity: 0.7;
+  animation: liveBeaconPulse 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.status-ribbon-divider {
+  width: 1px;
+  height: 14px;
+  background-color: rgba(14, 116, 144, 0.18);
+}
+
+.device-id-code {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--deep-ocean-blue);
+  background: rgba(224, 242, 254, 0.65);
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(186, 230, 253, 0.7);
+}
+
+.system-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #0d9488;
+  font-weight: 650;
+}
+
+.cadence-badge {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--marine-muted);
+}
+
+/* ==========================================================================
+   DEPLOYMENT DATA RIBBON (HORIZONTAL INSTRUMENT RIBBON)
+   ========================================================================== */
+
+.deployment-ribbon-wrapper {
+  margin: 32px 0 48px 0;
+}
+
+.deployment-ribbon {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: var(--shadow-instrument);
+  padding: 16px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.deployment-ribbon:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-instrument-hover);
+  border-color: rgba(186, 230, 253, 0.9);
+}
+
+.deployment-ribbon__section {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.deployment-badge-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%);
+  border: 1px solid rgba(186, 230, 253, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--deep-ocean-blue);
+  box-shadow: 0 4px 12px -2px rgba(2, 132, 199, 0.12);
+  flex-shrink: 0;
+}
+
+.deployment-meta-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.deployment-kicker {
+  font-size: 9.5px;
+  font-weight: 750;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--marine-muted);
+}
+
+.deployment-meta-block strong {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--marine-navy);
+}
+
+.deployment-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 0 16px;
+  border-left: 1px solid var(--marine-hairline);
+}
+
+.deployment-cell__label {
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--marine-muted);
+}
+
+.deployment-cell__value {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--marine-navy);
+  white-space: nowrap;
+}
+
+.deployment-cell__value--time {
+  color: var(--deep-ocean-blue);
+  font-weight: 700;
+}
+
+.deployment-status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 650;
+  color: #059669;
+  background: rgba(209, 250, 229, 0.7);
+  padding: 4px 12px;
+  border-radius: 100px;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.deployment-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #10b981;
+}
+
+/* ==========================================================================
+   CENTERED MAJOR SECTION HEADINGS
+   ========================================================================== */
+
+.ocean-section-header {
+  text-align: center;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.section-eyebrow {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--deep-ocean-blue);
+  margin-bottom: 8px;
+}
+
+.section-heading-title {
+  margin: 0 0 8px 0;
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3.2vw, 36px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--marine-navy);
+}
+
+.section-heading-description {
+  margin: 0;
+  max-width: 580px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--marine-slate);
+}
+
+/* ==========================================================================
+   INTEGRATED DATA BANDS (NO 9 REPETITIVE CARDS!)
+   ========================================================================== */
+
+.data-band-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-bottom: 60px;
+}
+
+.integrated-data-band {
+  position: relative;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.96);
+  border-radius: 24px;
+  box-shadow: var(--shadow-instrument);
+  padding: 30px 34px;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
+  overflow: hidden;
+}
+
+.integrated-data-band::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--band-accent-1, #38bdf8), var(--band-accent-2, #10b981));
+  opacity: 0.8;
+}
+
+.integrated-data-band:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-instrument-hover), var(--band-glow, var(--shadow-glow-blue));
+  border-color: rgba(186, 230, 253, 0.95);
+}
+
+/* Band Header Strip */
+.band-header-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--marine-hairline);
+}
+
+.band-header-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.band-header-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(224, 242, 254, 0.75);
+  color: var(--deep-ocean-blue);
+  border: 1px solid rgba(186, 230, 253, 0.7);
+}
+
+.band-header-titles {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.band-header-titles h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  color: var(--marine-navy);
+}
+
+.band-header-titles span {
+  font-size: 11px;
+  color: var(--marine-muted);
+}
+
+.band-status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 650;
+  padding: 4px 10px;
+  border-radius: 100px;
+  background: rgba(209, 250, 229, 0.6);
+  color: #059669;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+/* Band Metrics Content Row */
+.band-metrics-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: stretch;
+  position: relative;
+}
+
+.band-metric-unit {
+  padding: 8px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  transition: background-color 0.25s ease;
+}
+
+.band-metric-unit:not(:first-child) {
+  border-left: 1px solid var(--marine-hairline);
+}
+
+.band-metric-unit:first-child {
+  padding-left: 4px;
+}
+
+.band-metric-unit:last-child {
+  padding-right: 4px;
+}
+
+.band-metric-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.band-metric-label {
+  font-size: 12.5px;
+  font-weight: 650;
+  color: var(--marine-slate);
+  letter-spacing: 0.01em;
+}
+
+.band-metric-tag {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 6px;
+  background: rgba(224, 242, 254, 0.7);
+  color: var(--deep-ocean-blue);
+  border: 1px solid rgba(186, 230, 253, 0.6);
+}
+
+/* Large Value Typography */
+.band-metric-value-wrapper {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin: 10px 0 12px 0;
+}
+
+.band-metric-value {
+  font-family: var(--font-display);
+  font-size: clamp(34px, 3.4vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--marine-navy);
+  line-height: 1;
+  transition: transform 0.4s ease, color 0.3s ease;
+}
+
+.band-metric-value.value-updating {
+  animation: metricValueFlash 0.6s ease-out;
+}
+
+.band-metric-unit-symbol {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--marine-muted);
+}
+
+.band-metric-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.band-metric-description {
+  margin: 0;
+  font-size: 11.5px;
+  color: var(--marine-muted);
+  line-height: 1.4;
+}
+
+/* Visual Spectrum / Mini Bar Indicator */
+.band-visual-spectrum {
+  width: 100%;
+  height: 5px;
+  background: rgba(224, 242, 254, 0.8);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.band-spectrum-fill {
+  height: 100%;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #38bdf8, #10b981);
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   DEVICE HEALTH CUSTOM VISUAL INSTRUMENTS
+   (Battery Cell, Signal Meter, Radar Target)
+   ========================================================================== */
+
+/* 1. Sleek Battery Cell */
+.battery-instrument {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 12px 0;
+}
+
+.battery-cell-shell {
+  position: relative;
+  width: 64px;
+  height: 32px;
+  border: 2px solid var(--deep-ocean-blue);
+  border-radius: 8px;
+  padding: 3px;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: stretch;
+}
+
+.battery-cell-shell::after {
+  content: "";
+  position: absolute;
+  right: -6px;
+  top: 8px;
+  bottom: 8px;
+  width: 4px;
+  background-color: var(--deep-ocean-blue);
+  border-radius: 0 3px 3px 0;
+}
+
+.battery-cell-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1), background 0.4s ease;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+}
+
+.battery-cell-fill--optimal {
+  background: linear-gradient(90deg, #059669 0%, #10b981 50%, #34d399 100%);
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.45);
+}
+
+.battery-cell-fill--normal {
+  background: linear-gradient(90deg, #0284c7 0%, #0ea5e9 50%, #10b981 100%);
+  box-shadow: 0 0 10px rgba(14, 165, 233, 0.4);
+}
+
+.battery-cell-fill--low {
+  background: linear-gradient(90deg, #d97706 0%, #f59e0b 50%, #f97316 100%);
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+}
+
+.battery-cell-fill--critical {
+  background: linear-gradient(90deg, #b91c1c 0%, #ef4444 100%);
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.45);
+}
+
+.band-metric-tag--optimal {
+  background: rgba(209, 250, 229, 0.85);
+  color: #059669;
+  border-color: rgba(16, 185, 129, 0.35);
+}
+
+.band-metric-tag--normal {
+  background: rgba(224, 242, 254, 0.85);
+  color: #0284c7;
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.band-metric-tag--low {
+  background: rgba(254, 243, 199, 0.85);
+  color: #b45309;
+  border-color: rgba(245, 158, 11, 0.35);
+}
+
+.band-metric-tag--critical {
+  background: rgba(254, 226, 226, 0.85);
+  color: #b91c1c;
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+/* 2. Animated Signal Multi-Bar Meter */
+.signal-instrument {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 32px;
+  margin: 12px 0;
+}
+
+.signal-bar {
+  width: 7px;
+  background-color: rgba(203, 213, 225, 0.6);
+  border-radius: 3px;
+  transition: height 0.4s ease, background-color 0.4s ease;
+}
+
+.signal-bar:nth-child(1) { height: 25%; }
+.signal-bar:nth-child(2) { height: 45%; }
+.signal-bar:nth-child(3) { height: 65%; }
+.signal-bar:nth-child(4) { height: 85%; }
+.signal-bar:nth-child(5) { height: 100%; }
+
+.signal-bar.signal-bar--active {
+  background: linear-gradient(180deg, #0ea5e9 0%, #0284c7 100%);
+  box-shadow: 0 0 8px rgba(14, 165, 233, 0.35);
+}
+
+/* 3. Concentric GPS Radar Target Reticle */
+.radar-instrument {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  margin: 8px 0;
+}
+
+.radar-circle {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(56, 189, 248, 0.45);
+}
+
+.radar-circle--inner {
+  inset: 12px;
+  border-color: rgba(2, 132, 199, 0.6);
+}
+
+.radar-crosshair-v {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background-color: rgba(56, 189, 248, 0.35);
+}
+
+.radar-crosshair-h {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background-color: rgba(56, 189, 248, 0.35);
+}
+
+.radar-sweep-blip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--deep-ocean-blue);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px rgba(2, 132, 199, 0.8);
+}
+
+.radar-sweep-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--deep-ocean-blue);
+  transform: translate(-50%, -50%);
+  animation: radarTargetPing 2.4s ease-out infinite;
+}
+
+/* ==========================================================================
+   LIVE OCEAN TRENDS (CHARTS SECTION)
+   ========================================================================== */
+
+.charts-section-wrapper {
+  margin-bottom: 64px;
+}
+
+.charts-header-flex {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.charts-grid-layout {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.charts-grid-layout .chart-tile--full-width {
+  grid-column: 1 / -1;
+}
+
+.ocean-chart-tile {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 22px;
+  box-shadow: var(--shadow-instrument);
+  padding: 24px 26px 20px 26px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.ocean-chart-tile:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-instrument-hover);
+  border-color: rgba(186, 230, 253, 0.9);
+}
+
+.chart-tile-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.chart-tile-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.chart-tile-kicker {
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--marine-muted);
+}
+
+.chart-tile-heading {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  color: var(--marine-navy);
+}
+
+.chart-tile-live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  font-weight: 650;
+  color: var(--deep-ocean-blue);
+  background: rgba(224, 242, 254, 0.7);
+  padding: 4px 10px;
+  border-radius: 100px;
+  border: 1px solid rgba(186, 230, 253, 0.7);
+}
+
+.chart-canvas-container {
+  width: 100%;
+  height: 220px;
+  margin-top: 6px;
+}
+
+/* Custom Recharts Tooltip */
+.ocean-custom-tooltip {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(186, 230, 253, 0.9);
+  border-radius: 12px;
+  padding: 10px 14px;
+  box-shadow: 0 12px 32px rgba(9, 30, 58, 0.12);
+  font-family: var(--font-body);
+}
+
+.tooltip-time {
+  margin: 0 0 6px 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--marine-muted);
+  border-bottom: 1px solid var(--marine-hairline);
+  padding-bottom: 4px;
+}
+
+.tooltip-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 3px 0;
+}
+
+.tooltip-label {
+  font-size: 11.5px;
+  color: var(--marine-slate);
+  font-weight: 500;
+}
+
+.tooltip-value {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--marine-navy);
+}
+
+/* ==========================================================================
+   DEPLOYMENT LOCATION & LIVE ACTIVITY READOUT
+   ========================================================================== */
+
+.scientific-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 64px;
+}
+
+.scientific-panel {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: 22px;
+  box-shadow: var(--shadow-instrument);
+  padding: 26px 28px;
+  display: flex;
+  flex-direction: column;
+}
+
+.scientific-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--marine-hairline);
+}
+
+.scientific-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.scientific-panel-title h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 750;
+  color: var(--marine-navy);
+}
+
+/* Radar Location Visualizer */
+.radar-map-display {
+  position: relative;
+  height: 180px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(224, 242, 254, 0.7) 0%, rgba(240, 249, 255, 0.9) 100%);
+  border: 1px solid rgba(186, 230, 253, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.radar-grid-bg {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(2, 132, 199, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(2, 132, 199, 0.08) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.radar-target-node {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.radar-pin-pulse {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--deep-ocean-blue);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+}
+
+.radar-pin-ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 1.5px solid var(--deep-ocean-blue);
+  animation: radarTargetPing 2.5s cubic-bezier(0.1, 0.7, 0.3, 1) infinite;
+}
+
+.radar-badge-text {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--marine-navy);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(8px);
+  padding: 3px 10px;
+  border-radius: 100px;
+  border: 1px solid rgba(186, 230, 253, 0.8);
+  box-shadow: 0 2px 8px rgba(12, 74, 110, 0.08);
+}
+
+.radar-coords-bar {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--marine-slate);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(6px);
+  padding: 5px 10px;
+  border-radius: 8px;
+}
+
+/* Live Event Diagnostics Stream */
+.diagnostics-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.diagnostic-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: rgba(248, 250, 252, 0.75);
+  border-radius: 10px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.diagnostic-item:hover {
+  transform: translateX(3px);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.diagnostic-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.diagnostic-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.diagnostic-icon--green {
+  background: rgba(209, 250, 229, 0.8);
+  color: #059669;
+}
+
+.diagnostic-icon--blue {
+  background: rgba(224, 242, 254, 0.8);
+  color: var(--deep-ocean-blue);
+}
+
+.diagnostic-icon--cyan {
+  background: rgba(207, 250, 254, 0.8);
+  color: #0891b2;
+}
+
+.diagnostic-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.diagnostic-title {
+  font-size: 12px;
+  font-weight: 650;
+  color: var(--marine-navy);
+}
+
+.diagnostic-desc {
+  font-size: 10.5px;
+  color: var(--marine-muted);
+}
+
+.diagnostic-time {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--marine-slate);
+}
+
+/* ==========================================================================
+   OCEAN RESEARCH MASCOT ("AeroFloat Alpha")
+   ========================================================================== */
+
+.ocean-mascot-pod {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: auto;
+}
+
+.mascot-sensor-drone {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(224, 242, 254, 0.85) 100%);
+  border: 1.5px solid rgba(255, 255, 255, 1);
+  box-shadow: 0 12px 32px rgba(2, 132, 199, 0.22), 0 0 0 1px rgba(186, 230, 253, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--deep-ocean-blue);
+  cursor: pointer;
+  animation: droneFloat 5.5s ease-in-out infinite;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.mascot-sensor-drone:hover {
+  transform: translateY(-6px) scale(1.06);
+  box-shadow: 0 18px 42px rgba(2, 132, 199, 0.32), 0 0 0 2px rgba(56, 189, 248, 0.8);
+}
+
+.mascot-sonar-pulse {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(56, 189, 248, 0.4);
+  animation: dronePulseRing 2.8s cubic-bezier(0.1, 0.6, 0.2, 1) infinite;
+  pointer-events: none;
+}
+
+/* Micro Bubbles Rising from Mascot */
+.mascot-micro-bubble {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(56, 189, 248, 0.5);
+  background: rgba(255, 255, 255, 0.7);
+  pointer-events: none;
+  animation: bubbleRise 3.5s ease-in-out infinite;
+}
+
+.mascot-micro-bubble--1 {
+  width: 5px;
+  height: 5px;
+  top: -8px;
+  right: 12px;
+  animation-delay: 0s;
+}
+
+.mascot-micro-bubble--2 {
+  width: 3.5px;
+  height: 3.5px;
+  top: -14px;
+  right: 22px;
+  animation-delay: 1.4s;
+}
+
+/* Tooltip Card on Mascot Hover */
+.mascot-tooltip {
+  position: absolute;
+  bottom: 72px;
+  right: 0;
+  width: 220px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(186, 230, 253, 0.9);
+  border-radius: 14px;
+  padding: 12px 14px;
+  box-shadow: 0 14px 36px rgba(9, 30, 58, 0.15);
+  opacity: 0;
+  transform: translateY(8px) scale(0.96);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.ocean-mascot-pod:hover .mascot-tooltip {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.mascot-tooltip-header {
+  font-size: 11.5px;
+  font-weight: 750;
+  color: var(--marine-navy);
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mascot-tooltip-body {
+  font-size: 10.5px;
+  color: var(--marine-slate);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* ==========================================================================
+   PLATFORM FOOTER
+   ========================================================================== */
+
+.ocean-platform-footer {
+  position: relative;
+  z-index: 2;
+  margin-top: auto;
+  border-top: 1px solid rgba(186, 230, 253, 0.6);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+  padding: 28px 0;
+  text-align: center;
+}
+
+.footer-content-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-title {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--marine-navy);
+}
+
+.footer-credits {
+  font-size: 12px;
+  color: var(--marine-slate);
+  margin: 0;
+}
+
+.footer-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--marine-muted);
+}
+
+/* ==========================================================================
+   STATE SCREENS (LOADING & ERROR)
+   ========================================================================== */
+
+.ocean-state-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 32px;
+  position: relative;
+  z-index: 2;
+}
+
+.state-glyph-box {
+  width: 68px;
+  height: 68px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%);
+  border: 1px solid rgba(186, 230, 253, 0.8);
+  box-shadow: 0 16px 40px rgba(2, 132, 199, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--deep-ocean-blue);
+  margin-bottom: 24px;
+}
+
+.state-glyph-box.state-glyph-box--spin svg {
+  animation: spinGlyph 4s linear infinite;
+}
+
+.ocean-state-screen h2 {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--marine-navy);
+  margin: 10px 0;
+}
+
+.ocean-state-screen p {
+  max-width: 460px;
+  font-size: 14.5px;
+  color: var(--marine-slate);
+  line-height: 1.5;
+  margin: 0 0 24px 0;
+}
+
+.ocean-retry-btn {
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 650;
+  color: #ffffff;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  border: none;
+  border-radius: 12px;
+  padding: 12px 24px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ocean-retry-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px rgba(2, 132, 199, 0.45);
+}
+
+/* ==========================================================================
+   KEYFRAME ANIMATIONS (Smooth, Organic, Cinematic)
+   ========================================================================== */
+
+@keyframes driftSkyGlow {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(120px, 60px) scale(1.1); }
+  100% { transform: translate(-60px, 90px) scale(0.95); }
+}
+
+@keyframes driftAquaBlob {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-140px, -70px) scale(1.08); }
+  100% { transform: translate(-80px, 110px) scale(0.94); }
+}
+
+@keyframes driftSeafoamGlow {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(90px, -80px) scale(1.05); }
+  100% { transform: translate(140px, 40px) scale(0.96); }
+}
+
+@keyframes driftCenterGlow {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-80px, -90px) scale(1.15); }
+}
+
+@keyframes riseBubble {
+  0% {
+    transform: translateY(0) scale(0.6);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.6;
+  }
+  85% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(-115vh) scale(1.1);
+    opacity: 0;
+  }
+}
+
+@keyframes waveScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes waterTrail {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(3.2);
+    opacity: 0;
+  }
+}
+
+@keyframes waterClickRipple {
+  0% {
+    transform: translate(-50%, -50%) scale(0.3);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(5.5);
+    opacity: 0;
+  }
+}
+
+@keyframes heroFadeSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroRevealTitle {
+  from {
+    opacity: 0;
+    transform: translateY(22px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes heroFadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes emblemFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes sonarPing {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+@keyframes liveBeaconPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@keyframes metricValueFlash {
+  0% {
+    opacity: 0.4;
+    transform: scale(0.96);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes radarTargetPing {
+  0% {
+    transform: translate(-50%, -50%) scale(0.4);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.2);
+    opacity: 0;
+  }
+}
+
+@keyframes droneFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-9px) rotate(-3deg); }
+}
+
+@keyframes dronePulseRing {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.7);
+    opacity: 0;
+  }
+}
+
+@keyframes bubbleRise {
+  0%, 100% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.8;
+  }
+  80% {
+    transform: translate(-6px, -24px);
+    opacity: 0;
+  }
+}
+
+@keyframes spinGlyph {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN ADAPTATIONS
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  .deployment-ribbon {
+    gap: 16px;
+    padding: 16px 20px;
+  }
+  
+  .deployment-cell {
+    padding: 0 12px;
+  }
+
+  .charts-grid-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .scientific-details-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .ocean-container {
+    padding: 0 18px;
+  }
+
+  .ocean-hero {
+    padding-top: 40px;
+  }
+
+  .hero-title {
+    font-size: 42px;
+  }
+
+  .hero-subtitle {
+    font-size: 15px;
+    margin-bottom: 22px;
+  }
+
+  .live-status-ribbon {
+    padding: 8px 16px;
+    gap: 10px;
+    border-radius: 20px;
+  }
+
+  .status-ribbon-divider {
+    display: none;
+  }
+
+  .deployment-ribbon {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 16px;
+  }
+
+  .deployment-cell {
+    border-left: none;
+    border-top: 1px solid var(--marine-hairline);
+    padding: 10px 0 0 0;
+  }
+
+  .band-metrics-row {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .band-metric-unit:not(:first-child) {
+    border-left: none;
+    border-top: 1px solid var(--marine-hairline);
+    padding: 16px 0 0 0;
+  }
+
+  .band-metric-unit:first-child {
+    padding-left: 0;
+  }
+
+  .band-metric-unit:last-child {
+    padding-right: 0;
+  }
+
+  .integrated-data-band {
+    padding: 22px 20px;
+  }
+
+  .charts-grid-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .ocean-chart-tile {
+    padding: 18px 18px 14px 18px;
+  }
+
+  .ocean-mascot-pod {
+    right: 16px;
+    bottom: 16px;
+    transform: scale(0.88);
+  }
+
+  .water-ripple-container {
+    display: none; /* Disable cursor ripples on mobile touch devices */
+  }
+}
+
+/* ==========================================================================
+   ACCESSIBILITY: REDUCED MOTION PREFERENCE
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001s !important;
+    scroll-behavior: auto !important;
+  }
+
+  .ambient-glow,
+  .ambient-bubble,
+  .water-ripple-container,
+  .ambient-wave-divider svg {
+    display: none !important;
+  }
+}
