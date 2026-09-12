@@ -1,15 +1,19 @@
 import os
+import sys
+from pathlib import Path
+
+# Ensure the backend directory is in sys.path for direct local module imports
+backend_dir = str(Path(__file__).resolve().parent)
+if backend_dir not in sys.path:
+    sys.path.insert(0, backend_dir)
+
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-try:
-    from backend.database import SessionLocal, engine
-    from backend.models import Base, TelemetryRecord
-except ImportError:
-    from database import SessionLocal, engine
-    from models import Base, TelemetryRecord
+from database import SessionLocal, engine
+from models import Base, TelemetryRecord
 
 
 # ==================================================

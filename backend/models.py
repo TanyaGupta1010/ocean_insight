@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Float, DateTime
 from datetime import datetime
 
-from backend.database import Base
+from database import Base
 
 
 class TelemetryRecord(Base):
