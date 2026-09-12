@@ -3,11 +3,20 @@ import random
 import time
 
 
+import os
+
 # ==================================================
-# BACKEND API
+# BACKEND API CONFIGURATION
+# Supports local development, Render production, or custom API_URL
 # ==================================================
 
-API_URL = "http://127.0.0.1:8000/telemetry"
+DEFAULT_ENDPOINTS = [
+    "https://ocean-insight.onrender.com/telemetry",
+    "http://127.0.0.1:8000/telemetry",
+]
+
+env_urls = os.environ.get("API_URLS", os.environ.get("API_URL", ""))
+TARGET_URLS = [u.strip() for u in env_urls.split(",") if u.strip()] if env_urls else DEFAULT_ENDPOINTS
 
 
 # ==================================================
@@ -312,137 +321,50 @@ def send_telemetry():
     }
 
 
-    try:
-
-        response = requests.post(
-            API_URL,
-            json=data,
-            timeout=10
-        )
-
-
-        if response.status_code == 200:
-
-            print("\n==========================================")
-            print("TELEMETRY SENT SUCCESSFULLY")
-            print("==========================================")
-
-            print("Device:", DEVICE_ID)
-
-            print(
-                "Location:",
-                data["latitude"],
-                ",",
-                data["longitude"]
+    for target_url in TARGET_URLS:
+        try:
+            response = requests.post(
+                target_url,
+                json=data,
+                timeout=3
             )
 
-            print(
-                "GPS Accuracy:",
-                data["gps_accuracy"],
-                "m"
-            )
+            if response.status_code == 200:
+                print(f"[SUCCESS] Telemetry stored on {target_url}")
+                print(f"   -> Battery: {data['battery']}% | Temp: {data['temperature']}°C | Salinity: {data['salinity']} PSU")
+            else:
+                print(f"[WARN] Status {response.status_code} from {target_url}: {response.text}")
 
-            print(
-                "Temperature:",
-                data["temperature"],
-                "°C"
-            )
-
-            print(
-                "Salinity:",
-                data["salinity"],
-                "PSU"
-            )
-
-            print(
-                "pH:",
-                data["ph"]
-            )
-
-            print(
-                "Dissolved Oxygen:",
-                data["dissolved_oxygen"],
-                "mg/L"
-            )
-
-            print(
-                "Conductivity:",
-                data["conductivity"],
-                "µS/cm"
-            )
-
-            print(
-                "Turbidity:",
-                data["turbidity"],
-                "NTU"
-            )
-
-            print(
-                "Battery:",
-                data["battery"],
-                "%"
-            )
-
-            print(
-                "Signal Strength:",
-                data["signal_strength"],
-                "%"
-            )
-
-            print("==========================================")
-
-        else:
-
-            print(
-                "\nFailed to send data:"
-            )
-
-            print(
-                "Status:",
-                response.status_code
-            )
-
-            print(
-                "Response:",
-                response.text
-            )
-
-
-    except requests.exceptions.RequestException as error:
-
-        print(
-            "\nConnection error:",
-            error
-        )
+        except requests.exceptions.RequestException as error:
+            print(f"[NOTICE] Could not connect to {target_url}: {error.__class__.__name__}")
 
 
 # ==================================================
 # RUN SIMULATOR
 # ==================================================
 
-print("==========================================")
-print("OCEAN OBSERVATION TELEMETRY SIMULATOR")
-print("==========================================")
+if __name__ == "__main__":
+    print("==========================================")
+    print("OCEAN OBSERVATION TELEMETRY SIMULATOR")
+    print("==========================================")
 
-print("Device ID:", DEVICE_ID)
+    print("Device ID:", DEVICE_ID)
 
-print("Mode: DEMO / SIMULATED TELEMETRY")
+    print("Mode: DEMO / SIMULATED TELEMETRY")
 
-print(
-    "Base Location:",
-    BASE_LATITUDE,
-    ",",
-    BASE_LONGITUDE
-)
+    print(
+        "Base Location:",
+        BASE_LATITUDE,
+        ",",
+        BASE_LONGITUDE
+    )
 
-print("Sending data every 5 seconds...")
+    print("Target URLs:", TARGET_URLS)
+    print("Sending data every 5 seconds...")
 
-print("==========================================")
+    print("==========================================")
 
-
-while True:
-
-    send_telemetry()
-
-    # Send telemetry every 5 seconds
-    time.sleep(5)
+    while True:
+        send_telemetry()
+        # Send telemetry every 5 seconds
+        time.sleep(5)

@@ -61,6 +61,51 @@ app.add_middleware(
 
 
 # ==================================================
+# STARTUP INITIALIZATION
+# Auto-seed initial healthy readings if database is empty
+# ==================================================
+
+@app.on_event("startup")
+def seed_initial_telemetry():
+    import random
+    from datetime import datetime, timedelta
+
+    db = SessionLocal()
+    try:
+        if db.query(TelemetryRecord).count() == 0:
+            now = datetime.utcnow()
+            records = []
+            for i in range(30):
+                t = now - timedelta(seconds=(29 - i) * 5)
+                bat = round(92.5 - (29 - i) * 0.005, 2)
+                record = TelemetryRecord(
+                    device_id="OCEAN_001",
+                    latitude=round(28.450643 + random.uniform(-0.0002, 0.0002), 6),
+                    longitude=round(77.583798 + random.uniform(-0.0002, 0.0002), 6),
+                    gps_accuracy=round(4.0 + random.uniform(-0.3, 0.3), 2),
+                    temperature=round(28.2 + random.uniform(-0.1, 0.1), 2),
+                    salinity=round(34.5 + random.uniform(-0.05, 0.05), 2),
+                    ph=round(8.02 + random.uniform(-0.02, 0.02), 2),
+                    dissolved_oxygen=round(7.25 + random.uniform(-0.1, 0.1), 2),
+                    conductivity=round(52100.0 + random.uniform(-50, 50), 2),
+                    turbidity=round(2.85 + random.uniform(-0.1, 0.1), 2),
+                    battery=bat,
+                    signal_strength=round(91.5 + random.uniform(-1.5, 1.5), 2),
+                    timestamp=t,
+                )
+                records.append(record)
+            db.bulk_save_objects(records)
+            db.commit()
+            print("Auto-seeded 30 initial telemetry records.")
+    except Exception as err:
+        print("Startup seed error:", err)
+        db.rollback()
+    finally:
+        db.close()
+
+
+
+# ==================================================
 # TELEMETRY REQUEST MODEL
 # ==================================================
 
